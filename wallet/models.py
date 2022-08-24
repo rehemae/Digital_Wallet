@@ -12,6 +12,7 @@ class Customer(models.Model):
     GENDER_CHOICES=(
        ("M", "Male"),
        ("F", "Female"),
+       ("O","Others"),
    )
     gender= models.CharField(max_length=1,choices=GENDER_CHOICES,null=True)
     adress=models.CharField(max_length=15,null=True)
@@ -19,12 +20,12 @@ class Customer(models.Model):
     nationality=models.CharField(max_length=15,null=True)
     Id_number=models.CharField(max_length=15,null=True)
     phone_number=models.CharField(max_length=15,null=True)
-    email=models.EmailField(max_length=25,null=True)
+    email=models.EmailField(max_length=40,null=True)
     profile_picture = models.ImageField(upload_to='profile_pictures/',null=True)
 
 
 class Currency(models.Model):
-   amont=models.IntegerField()
+   amount=models.IntegerField()
    symbol=models.CharField(max_length=15,null=True)
    country_of_origin=models.CharField(max_length=24,null=True) 
 
@@ -49,7 +50,7 @@ class Account(models.Model):
 class Transaction(models.Model):
     wallet=models.ForeignKey('Wallet',on_delete=models.CASCADE,related_name='Transaction_wallet') 
     transaction_amount=models.IntegerField() 
-    transaction_type=models.IntegerField()
+    # transaction_type=models.IntegerField()
     transaction_type=models.CharField(max_length=15,null=True)
     transaction_charge=models.IntegerField()
     transaction_date=models.DateTimeField(default=timezone.now)
@@ -105,15 +106,14 @@ class Loan(models.Model):
     loan_balance=models.IntegerField()
     loarn_term=models.IntegerField
 
-
-
 class Reward(models.Model):
     transaction=models.ForeignKey('Account',on_delete=models.CASCADE,related_name='Reward_transaction')
     date_and_time=models.DateTimeField(default=timezone.now)
-    customer_id=models.IntegerField()
+    customer_id=models.CharField(max_length=15,null=True)
     GENDER_CHOICES=(
        ("M", "Male"),
        ("F", "Female"),
+       ("o","Others"),
    )
     gender= models.CharField(max_length=1,choices=GENDER_CHOICES,null=True)
     bonus=models.IntegerField()
