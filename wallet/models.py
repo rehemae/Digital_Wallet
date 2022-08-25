@@ -1,7 +1,8 @@
 import email
-from inspect import stack
+from inspect import signature, stack
 from locale import currency
 from operator import countOf
+from random import choices
 from django.db import models
 from django.utils import timezone
 
@@ -12,22 +13,47 @@ class Customer(models.Model):
     GENDER_CHOICES=(
        ("M", "Male"),
        ("F", "Female"),
-       ("O","Others"),
+       ("N","Non-binary"),
    )
     gender= models.CharField(max_length=1,choices=GENDER_CHOICES,null=True)
     adress=models.CharField(max_length=15,null=True)
     age=models.PositiveSmallIntegerField()
-    nationality=models.CharField(max_length=15,null=True)
+    NATIONALITY_CHOICES=(
+       ("T", "Tanzania"),
+       ("K", "Kenya"),
+       ("U","Uganda"),
+       ("R","Rwanda"),
+       ("S","Sudan"),
+       ("O","Other countries"),
+   )
+    nationality=models.CharField(max_length=15,choices=NATIONALITY_CHOICES,null=True)
     Id_number=models.CharField(max_length=15,null=True)
     phone_number=models.CharField(max_length=15,null=True)
     email=models.EmailField(max_length=40,null=True)
+    MARITAL_CHOICES=(
+       ("M", "Marriage"),
+       ("S", "Single"),
+       ("W","widowed"),
+       ("D","Divorced")
+   )
+    marital_status=models.CharField(max_length=20, choices=MARITAL_CHOICES,null=True)
+    EMPLOYMENT_CHOICES=(
+       ("D", "Doctor"),
+       ("F", "Farmer"),
+       ("S","Student"),
+       ("T","Teacher"),
+       ("E","Engineer"),
+       ("O","Others"),
+    
+   )
+    employment=models.CharField(max_length=15,null=True,choices=EMPLOYMENT_CHOICES)
     profile_picture = models.ImageField(upload_to='profile_pictures/',null=True)
 
 
 class Currency(models.Model):
-   amount=models.IntegerField()
-   symbol=models.CharField(max_length=15,null=True)
-   country_of_origin=models.CharField(max_length=24,null=True) 
+    amount=models.IntegerField()
+    symbol=models.CharField(max_length=15,null=True)
+    country_of_origin=models.CharField(max_length=24,null=True) 
 
 
 class Wallet(models.Model):
@@ -50,7 +76,6 @@ class Account(models.Model):
 class Transaction(models.Model):
     wallet=models.ForeignKey('Wallet',on_delete=models.CASCADE,related_name='Transaction_wallet') 
     transaction_amount=models.IntegerField() 
-    # transaction_type=models.IntegerField()
     transaction_type=models.CharField(max_length=15,null=True)
     transaction_charge=models.IntegerField()
     transaction_date=models.DateTimeField(default=timezone.now)
@@ -104,7 +129,7 @@ class Loan(models.Model):
     guarantor=models.ForeignKey('Customer',on_delete=models.CASCADE,related_name='Loan_guarantor')
     pay_due_date=models.DateTimeField(default=timezone.now)
     loan_balance=models.IntegerField()
-    loarn_term=models.IntegerField
+    # loarn_term=models.IntegerField
 
 class Reward(models.Model):
     transaction=models.ForeignKey('Account',on_delete=models.CASCADE,related_name='Reward_transaction')

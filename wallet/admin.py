@@ -1,10 +1,11 @@
 from django.contrib import admin
-from.models import Customer,Wallet,Account,Transaction,Card,Thirdparty,Notifications,Receipt,Loan,Currency,Reward
+from.models import Customer ,Wallet,Account,Transaction,Card,Thirdparty,Notifications,Receipt,Loan,Currency,Reward
+
 
 
 class CustomerAdmin(admin.ModelAdmin):
-    list_display=("first_name","last_name","email",)
-    search_fields=("fist_name","last_name")
+    list_display=("first_name","last_name","email","gender","adress","age","nationality","Id_number","phone_number","marital_status","employment","profile_picture", )
+    search_fields=("fist_name","last_name","gender","adress","age","nationality","Id_number","phone_number","marital_status","employment","profile_picture")
 admin.site.register(Customer,CustomerAdmin)
 
 class CurrencyAdmin(admin.ModelAdmin):
@@ -48,7 +49,7 @@ class ReceiptAdmin(admin.ModelAdmin):
 admin.site.register(Receipt,ReceiptAdmin)
 
 class LoanAdmin(admin.ModelAdmin):
-    list_display=('loan_number','loan_type','date_and_time','interest_rate','wallet' ,'guarantor','pay_due_date','loan_balance','loarn_term',)
+    list_display=('loan_number','loan_type','date_and_time','interest_rate','wallet' ,'guarantor','pay_due_date','loan_balance',)
     search_fields=("loarn_term",'loan_type')
 admin.site.register(Loan,LoanAdmin)
 
